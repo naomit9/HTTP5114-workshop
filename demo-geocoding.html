@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Geocoding</title>
+</head>
+<body>
+    <div id="results"></div>
+    <script>
+        const google_map_api_key = "AIzaSyAZmY1YtzvNp6zOBJlu5rjnS90U8ViIxDA";
+
+        var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=Toronto,ON&key='+ google_map_api_key;
+        var xhr = new XMLHttpRequest;
+
+        xhr.onreadystatechange = function() {
+
+            console.log(this.readyState);
+            console.log(this.status);
+
+            if (this.readyState === 4 && this.status === 200) {
+                console.log(this.response);
+
+                let address = this.response.results[0].formatted_address;
+                let lng = this.response.results[0].geometry.location.lng;
+                let lat = this.response.results[0].geometry.location.lat;
+
+                console.log(address);
+                console.log(lng);
+                console.log(lat);
+
+                const results = document.getElementById('results');
+                results.innerHTML = 
+                "Address: " + address +
+                "Longtitude: " + lng +
+                "Latitude: " + lat;
+            }
+
+            console.log("------------------------")
+        };
+
+        xhr.responseType = "json";
+        xhr.open("GET", url, true);
+        xhr.send();
+
+    </script>
+</body>
+</html>
